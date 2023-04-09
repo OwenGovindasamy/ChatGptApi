@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Text;
 
 namespace ChatGptApi.Logic.Image
 {
@@ -26,14 +27,15 @@ namespace ChatGptApi.Logic.Image
                     { "X-RapidAPI-Host", ApiHost },
                 },
 
-                Content = new StringContent("{\r\n    \"prompt\": \"A cute baby sea otter\",\r\n    \"n\": 2,\r\n    \"size\": \"1024x1024\"\r\n}")
-                {
-                    Headers =
-                    {
-                        ContentType = new MediaTypeHeaderValue("application/json")
-                    }
-                }
-            };
+                //Content = new StringContent("{\r\n    \"prompt\": \"A cute baby sea otter\",\r\n    \"n\": 2,\r\n    \"size\": \"1024x1024\"\r\n}")
+                //{
+                //    Headers =
+                //    {
+                //        ContentType = new MediaTypeHeaderValue("application/json")
+                //    }
+                //}
+                Content = new StringContent(JsonContent.Create(new { prompt = prompt, n = num, size = size }).ToString(), Encoding.UTF8, "application/json")
+        };
 
             using (var response = await client.SendAsync(request))
             {
