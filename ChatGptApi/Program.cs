@@ -1,4 +1,5 @@
-using Microsoft.Extensions.Configuration;
+using ChatGptApi.Interfaces;
+using ChatGptApi.Logic.Image;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -10,7 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IConfiguration>(configuration);
+builder.Services.AddSingleton<IConfiguration>(configuration);
+builder.Services.AddScoped<IImageLogic, ImageLogic>();
 
 var app = builder.Build();
 
