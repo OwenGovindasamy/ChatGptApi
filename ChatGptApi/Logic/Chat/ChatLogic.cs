@@ -16,11 +16,15 @@ namespace ChatGptApi.Logic.Chat
         {
             ChatProperties model = new()
             {
-                Messages = new List<ChatMessage> { new ChatMessage() },
-                Model = "gpt-3.5-turbo"
+                Model = "gpt-3.5-turbo",
+                Messages = new List<ChatMessage> 
+                { 
+                    new ChatMessage {
+                        Role= "user",
+                        Content = chat
+                    }
+                }
             };
-            model.Messages.First().Role = "user";
-            model.Messages.First().Content = chat;
 
             try
             {
@@ -37,7 +41,7 @@ namespace ChatGptApi.Logic.Chat
                     { "X-RapidAPI-Key", apiKey },
                     { "X-RapidAPI-Host", apiHost },
                 },
-                    Content = new StringContent(JsonSerializer.Serialize(chat), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
                 };
                 using var response = await client.SendAsync(request);
 
@@ -45,7 +49,7 @@ namespace ChatGptApi.Logic.Chat
                 var body = await response.Content.ReadAsStringAsync();
                 return body;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

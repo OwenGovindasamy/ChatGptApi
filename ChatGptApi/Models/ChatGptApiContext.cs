@@ -1,11 +1,11 @@
-﻿using ChatGptApi.Areas.Identity.Data;
+﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatGptApi.Data;
+namespace ChatGptApi.Models;
 
-public class ChatGptApiContext : IdentityDbContext<ChatGptApiUser>
+public class ChatGptApiContext : IdentityDbContext<IdentityUser>
 {
     public ChatGptApiContext(DbContextOptions<ChatGptApiContext> options)
         : base(options)
