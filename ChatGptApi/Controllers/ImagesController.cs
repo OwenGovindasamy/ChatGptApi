@@ -1,6 +1,8 @@
 ﻿using ChatGptApi.Interfaces;
+using ChatGptApi.Logic.Chat;
 using ChatGptApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ChatGptApi.Controllers
 {
@@ -13,12 +15,18 @@ namespace ChatGptApi.Controllers
         {
             _imageLogic = imageLogic;
         }
-        [HttpPost(Name = "Create")]
-        public async Task<ActionResult> Create()
-        {
-            var model = new ImageProperties { Prompt = "A cute baby sea otter", Number = 1, Size = "1024x1024" };
 
-            return Ok(await _imageLogic.CreateImage(model));
+        [HttpPost(Name = "Create")]
+        public async Task<ActionResult> Create(string text)
+        {
+            try
+            {
+                return Ok(await _imageLogic.CreateImage(text));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

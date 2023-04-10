@@ -1,21 +1,27 @@
 ﻿using ChatGptApi.Interfaces;
 using ChatGptApi.Models;
-using System.Text;
 using System.Text.Json;
+using System.Text;
 
-namespace ChatGptApi.Logic.Image
+namespace ChatGptApi.Logic.Chat
 {
-    public class ImageLogic : IImageLogic
+    public class ChatLogic : IChatLogic
     {
         private readonly IConfiguration _mySettings;
-        public ImageLogic(IConfiguration mySettings)
+        public ChatLogic(IConfiguration mySettings)
         {
             _mySettings = mySettings;
         }
-
-        public async Task<string> CreateImage(string text)
+        public async Task<string> CreateChat(string chat)
         {
-            var model = new ImageProperties { Prompt = text, Number = 1, Size = "1024x1024" };
+            ChatProperties model = new()
+            {
+                Messages = new List<ChatMessage> { new ChatMessage() },
+                Model = "gpt-3.5-turbo"
+            };
+            model.Messages.First().Role = "user";
+            model.Messages.First().Content = chat;
+
             try
             {
                 var apiKey = _mySettings.GetValue<string>("Credentials:RapidApiKey");
@@ -25,15 +31,14 @@ namespace ChatGptApi.Logic.Image
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
-                    RequestUri = new Uri(_mySettings.GetValue<string>("Endpoints:CreateImageURI")),
+                    RequestUri = new Uri(_mySettings.GetValue<string>("Endpoints:ChatCompletions")),
                     Headers =
                 {
                     { "X-RapidAPI-Key", apiKey },
                     { "X-RapidAPI-Host", apiHost },
                 },
-                    Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonSerializer.Serialize(chat), Encoding.UTF8, "application/json")
                 };
-
                 using var response = await client.SendAsync(request);
 
                 response.EnsureSuccessStatusCode();

@@ -4,6 +4,6 @@ namespace ChatGptApi.Interfaces
 {
     public interface IImageLogic
     {
-        Task<string> CreateImage(ImageProperties image);
+        Task<string> CreateImage(string text);
     }
 }
