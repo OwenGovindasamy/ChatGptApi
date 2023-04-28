@@ -20,7 +20,7 @@ namespace ChatGptApi.Logic.Chat
                 Messages = new List<ChatMessage> 
                 { 
                     new ChatMessage {
-                        Role= "user",
+                        Role = "user",
                         Content = chat
                     }
                 }

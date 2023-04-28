@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Identity\Pages\**" />
-    <Content Remove="Areas\Identity\Pages\**" />
-    <EmbeddedResource Remove="Areas\Identity\Pages\**" />
-    <None Remove="Areas\Identity\Pages\**" />
+    <Compile Remove="Areas\**" />
+    <Content Remove="Areas\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
   </ItemGroup>
 
   <ItemGroup>
